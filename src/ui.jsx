@@ -146,7 +146,7 @@ function slotSrc(id) {
 }
 
 /* ----- An image-slot that opens the lightbox when its image is clicked ----- */
-function ZoomableSlot({ id, shape, placeholder, onZoom }) {
+function ZoomableSlot({ id, shape, placeholder, onZoom, src, position, scale }) {
   const ref = useRef(null);
   const [filled, setFilled] = useState(false);
   useEffect(() => {
@@ -165,7 +165,7 @@ function ZoomableSlot({ id, shape, placeholder, onZoom }) {
   };
   return (
     <div className={"zslot" + (filled ? " is-filled" : "")} onClick={onClick}>
-      <image-slot ref={ref} id={id} shape={shape} placeholder={placeholder}></image-slot>
+      <image-slot ref={ref} id={id} shape={shape} placeholder={placeholder} src={src} position={position} scale={scale}></image-slot>
       {filled && <span className="zoom-hint" aria-hidden="true">⤢</span>}
     </div>);
 
@@ -334,6 +334,9 @@ function ProductViewer({ project, lang, section = "all" }) {
             id={`pv-${project.slug}-main`}
             shape="rect"
             placeholder="Drop a render"
+            src={project.mainSrc}
+            position={project.mainPosition}
+            scale={project.mainScale}
             onZoom={openZoom} />
           }
           </div>
@@ -345,6 +348,9 @@ function ProductViewer({ project, lang, section = "all" }) {
             id={`pv-${project.slug}-a${n}`}
             shape="rect"
             placeholder={`view ${n}`}
+            src={project.thumbSrcs && project.thumbSrcs[n]}
+            position={project.thumbPositions && project.thumbPositions[n]}
+            scale={project.thumbScales && project.thumbScales[n]}
             onZoom={openZoom} />
           )}
           </div>
