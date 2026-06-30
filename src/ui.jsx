@@ -58,6 +58,23 @@ function Model3DViewer({ project, lang }) {
   const initialSrc = project.model && /^https?:/i.test(project.model) ? project.model : SAMPLE;
   const [src, setSrc] = useState(initialSrc);
   const [hasLocal, setHasLocal] = useState(false);
+  const [viewerReady, setViewerReady] = useState(() => !!customElements.get("model-viewer"));
+
+  useEffect(() => {
+    if (customElements.get("model-viewer")) {
+      setViewerReady(true);
+      return;
+    }
+    let script = document.querySelector('script[data-model-viewer]');
+    if (!script) {
+      script = document.createElement("script");
+      script.type = "module";
+      script.src = "https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js";
+      script.dataset.modelViewer = "true";
+      document.head.appendChild(script);
+    }
+    customElements.whenDefined("model-viewer").then(() => setViewerReady(true)).catch(() => {});
+  }, []);
 
   // Use the project's real .glb only if it's actually present; otherwise keep the sample.
   useEffect(() => {
@@ -90,7 +107,7 @@ function Model3DViewer({ project, lang }) {
       className="mv3d-wrap"
       style={{ "--model-height": project.modelHeight || "440px", aspectRatio: "auto" }}>
       <span className="viewer-badge">{tx(T.threeD, lang)}</span>
-      <model-viewer
+      {viewerReady ? <model-viewer
         ref={mvRef}
         src={src}
         alt={tx(project.title, lang)}
@@ -109,7 +126,7 @@ function Model3DViewer({ project, lang }) {
         camera-orbit="0deg 75deg 40%"
         min-camera-orbit="auto auto 20%"
         max-camera-orbit="auto auto 200%">
-      </model-viewer>
+      </model-viewer> : <div className="mv3d-loading" aria-hidden="true" />}
 
       <div className="mv3d-bar">
         <div className="mv3d-bar-r">

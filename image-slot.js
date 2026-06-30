@@ -98,8 +98,17 @@
 
     connectedCallback() {
       subs.add(this._update);
-      load().then(this._update);
       this._update();
+      const hydrate = () => load().then(this._update);
+      if (this.hasAttribute("src")) {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(hydrate, { timeout: 2500 });
+        } else {
+          window.setTimeout(hydrate, 900);
+        }
+      } else {
+        hydrate();
+      }
     }
 
     disconnectedCallback() {
@@ -152,6 +161,7 @@
       this._img.style.objectFit = fit;
       this._img.loading = this.getAttribute("loading") || "lazy";
       this._img.decoding = "async";
+      this._img.fetchPriority = this._img.loading === "eager" ? "high" : "auto";
 
       if (stored) {
         const scale = Math.max(1, Number(stored.s) || 1);
