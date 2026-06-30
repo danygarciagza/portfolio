@@ -1,5 +1,5 @@
 (() => {
-  const STATE_FILE = ".image-slots.state.json?v=20260630-ryusui-thumb2";
+  const STATE_FILE = ".image-slots.state.json?v=20260630-ryusui-height";
   const subs = new Set();
   let slots = {};
   let loaded = false;

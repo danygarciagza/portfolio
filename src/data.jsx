@@ -60,7 +60,7 @@ const PROJECTS = [
     },
   },
   {
-    slug: "coffee-ritual", category: "product", year: "2025", has3d: false, rot: "1.5deg",
+    slug: "coffee-ritual", category: "product", year: "2025", has3d: false, mainHeight: "300px", rot: "1.5deg",
     title: { en: "Ryūsui", es: "Ryūsui" },
     mainSrc: "uploads/coffee-ritual-main.webp",
     thumbSrcs: { 2: "uploads/coffee-ritual-thumb-2.webp" },
