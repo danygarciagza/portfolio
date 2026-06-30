@@ -3,10 +3,12 @@
   const subs = new Set();
   let slots = {};
   let loaded = false;
+  let loadP = null;
 
   function load() {
     if (loaded) return Promise.resolve();
-    return fetch(STATE_FILE)
+    if (loadP) return loadP;
+    loadP = fetch(STATE_FILE)
       .then((r) => (r.ok ? r.json() : {}))
       .then((json) => {
         slots = json && typeof json === "object" ? json : {};
@@ -18,6 +20,7 @@
         loaded = true;
         subs.forEach((fn) => fn());
       });
+    return loadP;
   }
 
   function getSlot(id) {
@@ -74,7 +77,7 @@
 
   class ImageSlot extends HTMLElement {
     static get observedAttributes() {
-      return ["id", "src", "shape", "radius", "mask", "fit", "position"];
+      return ["id", "src", "shape", "radius", "mask", "fit", "position", "scale", "loading"];
     }
 
     constructor() {
@@ -132,6 +135,7 @@
       const src = stored && stored.u ? stored.u : this.getAttribute("src");
       const fit = this.getAttribute("fit") || "cover";
       const pos = this.getAttribute("position") || "50% 50%";
+      const fallbackScale = Math.max(1, Number(this.getAttribute("scale")) || 1);
 
       this._empty.textContent = this.getAttribute("placeholder") || "";
 
@@ -146,6 +150,8 @@
       this._img.src = src;
       this._img.style.display = "block";
       this._img.style.objectFit = fit;
+      this._img.loading = this.getAttribute("loading") || "lazy";
+      this._img.decoding = "async";
 
       if (stored) {
         const scale = Math.max(1, Number(stored.s) || 1);
@@ -155,7 +161,7 @@
         this._img.style.transform = `scale(${scale})`;
       } else {
         this._img.style.objectPosition = pos;
-        this._img.style.transform = "none";
+        this._img.style.transform = fallbackScale > 1 ? `scale(${fallbackScale})` : "none";
       }
     }
   }

@@ -11,7 +11,7 @@ function HomeWall({ lang, go, categories }) {
     key: "about", num: "01", label: T.nav[lang][1], action: () => go("about"),
     pos: { left: "1%", top: "3%", width: "clamp(148px,14vw,212px)", "--rot": "-3deg" },
     node:
-    <FunFrame slotId="home-about-photo" placeholder="you, grad cap" variant="stars" caption="me" />
+    <FunFrame slotId="home-about-photo" placeholder="you, grad cap" variant="stars" caption="me" src="uploads/home-about-photo.webp" position="calc(50% + 20.71124882411254%) calc(50% + -16.78831176757814%)" scale="1.8501525067259212" />
 
   },
   ...c.map((cat, i) => ({
@@ -24,7 +24,15 @@ function HomeWall({ lang, go, categories }) {
     i],
     node:
     <div className="scard" style={{ borderColor: "rgba(0, 0, 0, 0.05)", color: "rgb(244, 224, 175)", backgroundColor: "rgb(250, 239, 198)" }}>
-          <image-slot id={`home-cat-${cat.id}`} shape="rect" placeholder={tx(cat.name, lang)}></image-slot>
+          <image-slot
+            id={`home-cat-${cat.id}`}
+            shape="rect"
+            placeholder={tx(cat.name, lang)}
+            src={`uploads/home-cat-${cat.id}.webp`}
+            position={cat.id === "product" ? "calc(50% + 0.7175505089137786%) calc(50% + -6.388416193946114%)" : "50% 50%"}
+            scale={cat.id === "product" ? "1.0226681642402349" : "1"}
+            loading="eager">
+          </image-slot>
           <div className="scard-foot"><span className="dot" style={{ background: cat.color, backgroundColor: "rgb(115, 172, 208)" }} /><span className="scard-name">{tx(cat.name, lang)}</span></div>
         </div>
 

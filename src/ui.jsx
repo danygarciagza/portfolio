@@ -339,7 +339,7 @@ function ProductViewer({ project, lang, section = "all" }) {
 }
 
 /* ----- Fun picture frame (CSS-drawn: painted star or checker border) ----- */
-function FunFrame({ slotId, placeholder, variant = "stars", caption }) {
+function FunFrame({ slotId, placeholder, variant = "stars", caption, src, position, scale }) {
   const topN = Array.from({ length: 5 });
   const sideN = Array.from({ length: 5 });
   return (
@@ -353,7 +353,7 @@ function FunFrame({ slotId, placeholder, variant = "stars", caption }) {
         </React.Fragment>
       }
       <div className="ff-mat" style={{ backgroundColor: "rgb(157, 202, 197)" }}>
-        <image-slot id={slotId} shape="rect" placeholder={placeholder}></image-slot>
+        <image-slot id={slotId} shape="rect" placeholder={placeholder} src={src} position={position} scale={scale} loading="eager"></image-slot>
         {caption && <div className="ff-cap" style={{ color: "rgb(62, 54, 49)" }}>{caption}</div>}
       </div>
     </div>);
