@@ -16,16 +16,16 @@ function HomeWall({ lang, go, categories }) {
   },
   ...c.map((cat, i) => ({
     key: cat.id, num: String(i + 2).padStart(2, "0"), label: tx(cat.name, lang),
-    action: () => go("category", { cat: cat.id }),
+    action: () => go("work", { focus: cat.id }),
     pos: [
     { left: "25%", top: "47%", width: "clamp(158px,15vw,228px)", "--rot": "2.4deg" },
     { left: "46%", top: "1%", width: "clamp(158px,15vw,228px)", "--rot": "-2deg" },
     { left: "65%", top: "41%", width: "clamp(158px,15vw,228px)", "--rot": "3deg" }][
     i],
     node:
-    <div className="scard">
+    <div className="scard" style={{ borderColor: "rgba(0, 0, 0, 0.05)", color: "rgb(244, 224, 175)", backgroundColor: "rgb(250, 239, 198)" }}>
           <image-slot id={`home-cat-${cat.id}`} shape="rect" placeholder={tx(cat.name, lang)}></image-slot>
-          <div className="scard-foot"><span className="dot" style={{ background: cat.color }} /><span className="scard-name">{tx(cat.name, lang)}</span></div>
+          <div className="scard-foot"><span className="dot" style={{ background: cat.color, backgroundColor: "rgb(115, 172, 208)" }} /><span className="scard-name">{tx(cat.name, lang)}</span></div>
         </div>
 
   })),
@@ -44,14 +44,14 @@ function HomeWall({ lang, go, categories }) {
 
   return (
     <div className="wall2">
-      <h1 className="bigname" style={{ fontSize: "200px" }}>Daniela García</h1>
-      <div className="role" style={{ fontFamily: "Helvetica" }}>{tx(T.tagline, lang)}</div>
+      <h1 className="bigname">Daniela García</h1>
+      <div className="role" style={{ fontFamily: "Helvetica", fontSize: "25px" }}>{tx(T.tagline, lang)}</div>
 
       <div className="scatter">
         {items.map((it) =>
         <div key={it.key} className="obj2" style={it.pos} onClick={it.action}>
             {it.node}
-            <div className="cap2"><span className="num">({it.num})</span>{it.label}</div>
+            <div className="cap2"><span className="num">({it.num})</span></div>
           </div>
         )}
       </div>
@@ -72,13 +72,13 @@ function HomeBook({ lang, go, categories }) {
   const T = window.T;
   const tabs = [
   { label: lang === "es" ? "SOBRE\nMÍ" : "ABOUT", color: "var(--tab-1)", action: () => go("about") },
-  ...categories.map((c) => ({ label: tx(c.spine, lang), color: c.color, action: () => go("category", { cat: c.id }) })),
+  ...categories.map((c) => ({ label: tx(c.spine, lang), color: c.color, action: () => go("work", { focus: c.id }) })),
   { label: lang === "es" ? "CON-\nTACTO" : "CON-\nTACT", color: "var(--accent)", action: () => go("contact") }];
 
 
   const tocItems = [
   { n: "01", t: tx(T.nav[lang][1] || "About", lang), action: () => go("about") },
-  ...categories.map((c, i) => ({ n: String(i + 2).padStart(2, "0"), t: tx(c.name, lang), action: () => go("category", { cat: c.id }) }))];
+  ...categories.map((c, i) => ({ n: String(i + 2).padStart(2, "0"), t: tx(c.name, lang), action: () => go("work", { focus: c.id }) }))];
 
 
   return (

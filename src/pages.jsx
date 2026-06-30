@@ -27,12 +27,12 @@ function About({ lang, go }) {
               <div className="idfield" style={{ marginBottom: 0 }}><div className="k">{tx(T.idPlace, lang)}</div><div className="v">{tx(T.idPlaceV, lang)}</div></div>
             </div>
             <div>
-              <div className="idphoto">
-                <image-slot id="about-id-photo" shape="rect" placeholder="grad cap photo"></image-slot>
+              <div className="idphoto" style={{ height: "150px", width: "125px" }}>
+                <image-slot id="about-id-photo" shape="rect" placeholder="grad cap photo" style={{ width: "110px", height: "135px" }}></image-slot>
               </div>
             </div>
           </div>
-          <div className="idstamp" style={{ color: "rgb(178, 70, 47)" }}>{tx(T.stamp, lang)}</div>
+          <div className="idstamp" style={{ color: "rgb(178, 70, 47)", transform: "rotate(12deg)", borderWidth: "2px", borderRadius: "50px" }}><span style={{ color: "#3B3C68" }}>{tx(T.stamp, lang)}</span></div>
         </div>
 
         <div className="about-extras">
@@ -66,9 +66,11 @@ function Category({ lang, go, catId }) {
       </div>
       <div className="proj-grid">
         {items.map((p) =>
-        <div key={p.slug} className="proj-card" style={{ "--rot": p.rot }} onClick={() => go("project", { cat: cat.id, slug: p.slug })}>
+        <div key={p.slug} className={`proj-card${p.coverAspect ? " portrait-card" : ""}`} style={{ "--rot": p.rot, "--cover-aspect": p.coverAspect || "4/3.4" }} onClick={() => go("project", { cat: cat.id, slug: p.slug })}>
             <div className="polaroid">
-              <image-slot id={`card-${p.slug}`} shape="rect" placeholder={tx(p.title, lang)}></image-slot>
+              <div className="cover-edit-wrap" onClick={(e) => e.stopPropagation()}>
+                <image-slot id={`card-${p.slug}`} shape="rect" placeholder={tx(p.title, lang)} src={p.coverSrc || ""} style={p.coverAspect ? { aspectRatio: p.coverAspect } : {}}></image-slot>
+              </div>
               <div className="pol-cap">
                 <div className="t">{tx(p.title, lang)}</div>
                 <div className="s">{tx(p.oneLine, lang)}</div>
@@ -96,6 +98,8 @@ function ProjectDetail({ lang, go, catId, slug }) {
   if (!project) return null;
   const prev = siblings[(idx - 1 + siblings.length) % siblings.length];
   const next = siblings[(idx + 1) % siblings.length];
+  const catIdx = CATEGORIES.findIndex((c) => c.id === cat.id);
+  const nextCat = CATEGORIES[(catIdx + 1) % CATEGORIES.length];
 
   return (
     <div className="page-wrap view-enter" key={project.slug}>
@@ -103,6 +107,24 @@ function ProjectDetail({ lang, go, catId, slug }) {
         <a onClick={() => go("work")}>{T.nav[lang][2]}</a><span>/</span>
         <a onClick={() => go("category", { cat: cat.id })}>{tx(cat.name, lang)}</a><span>/</span>
         <span>{tx(project.title, lang)}</span>
+      </div>
+      <div className="shelf-nav">
+        <button className="shelf-jump" onClick={() => go("work", { focus: cat.id })}>
+          <span className="sj-arrow">←</span>
+          <span className="sj-txt">
+            <span className="sj-lbl">{lang === "es" ? "Volver al estante" : "Back to shelf"}</span>
+            <span className="sj-nm">{tx(cat.name, lang)}</span>
+          </span>
+        </button>
+        {nextCat && nextCat.id !== cat.id &&
+        <button className="shelf-jump alt" onClick={() => go("work", { focus: nextCat.id })}>
+            <span className="sj-txt" style={{ textAlign: "right" }}>
+              <span className="sj-lbl">{lang === "es" ? "Siguiente estante" : "Next shelf"}</span>
+              <span className="sj-nm">{tx(nextCat.name, lang)}</span>
+            </span>
+            <span className="sj-arrow">→</span>
+          </button>
+        }
       </div>
       <div className="detail">
         <ProductViewer project={project} lang={lang} />
@@ -114,7 +136,7 @@ function ProjectDetail({ lang, go, catId, slug }) {
           <div className="spec-table">
             <div className="spec-row"><div className="k">{tx(T.year, lang)}</div><div className="v">{project.year}</div></div>
             <div className="spec-row"><div className="k">{tx(T.type, lang)}</div><div className="v">{tx(project.tag, lang)}</div></div>
-            <div className="spec-row"><div className="k">{tx(T.made, lang)}</div><div className="v">{tx(project.materials, lang)}</div></div>
+            {!project.hideMaterials && <div className="spec-row"><div className="k">{tx(T.made, lang)}</div><div className="v">{tx(project.materials, lang)}</div></div>}
           </div>
 
           <div className="tag-chips">
@@ -155,13 +177,45 @@ function Contact({ lang, go }) {
           "A project, a collaboration, or just to say hi? I'd love to hear from you."}
         </p>
         <div className="scrap-row" style={{ justifyContent: "center" }}>
-          <a className="sticker" style={{ transform: "rotate(-2deg)", fontSize: 14 }} href={`mailto:${LINKS.email}`}>✉ {LINKS.email}</a>
-          <a className="sticker" style={{ transform: "rotate(1.5deg)", fontSize: 14 }} href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn · dgg27</a>
-          <a className="sticker" style={{ transform: "rotate(-1deg)", fontSize: 14 }} href={LINKS.dribbble} target="_blank" rel="noreferrer">Dribbble · danygarciagza</a>
+          <a className="sticker" style={{ transform: "rotate(-2deg)", fontSize: 14, backgroundColor: "rgb(200, 214, 152)" }} href={`mailto:${LINKS.email}`}>✉ {LINKS.email}</a>
+          <a className="sticker" style={{ transform: "rotate(1.5deg)", fontSize: 14, backgroundColor: "rgb(184, 230, 234)" }} href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn · dgg27</a>
+          <a className="sticker" style={{ transform: "rotate(-1deg)", fontSize: 14, backgroundColor: "rgb(241, 198, 239)" }} href={LINKS.dribbble} target="_blank" rel="noreferrer">Dribbble · danygarciagza</a>
         </div>
       </div>
     </div>);
 
 }
 
-Object.assign(window, { About, Category, ProjectDetail, Contact });
+/* ------------------------------ CREDITS ------------------------------- */
+/* Image attributions. Stock licenses (Freepik / Magnific / PNG Tree) require
+   a visible, accessible credit; a dedicated section satisfies that. */
+const IMAGE_CREDITS = [
+{ what: { en: "Bonsai", es: "Bonsái" }, by: "silvesterdiazland", source: "PNG Tree",
+  url: "https://pngtree.com/freepng/bonsai-asem-saraf_8626233.html?sol=downref&id=bef" },
+{ what: { en: "Record player", es: "Tocadiscos" }, by: "wirestock", source: "Magnific",
+  url: "https://www.magnific.com/free-photo/record-player-white-surface_13337896.htm" },
+{ what: { en: "Lucky cat", es: "Gato de la suerte" }, by: "freepik", source: "Magnific",
+  url: "https://www.magnific.com/free-psd/lucky-cat-still-life_54999857.htm" }];
+
+
+function Credits({ lang }) {
+  return (
+    <footer className="site-credits">
+      <div className="credits-inner">
+        <div className="credits-head">{lang === "es" ? "Créditos de imágenes" : "Image credits"}</div>
+        <ul className="credits-list">
+          {IMAGE_CREDITS.map((c) =>
+          <li key={c.url}>
+              <span className="cr-what">{c.what[lang] || c.what.en}</span>
+              <span className="cr-by">
+                {lang === "es" ? "por" : "by"} {c.by} · <a href={c.url} target="_blank" rel="noreferrer">{c.source}</a>
+              </span>
+            </li>
+          )}
+        </ul>
+      </div>
+    </footer>);
+
+}
+
+Object.assign(window, { About, Category, ProjectDetail, Contact, Credits });

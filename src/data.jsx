@@ -13,16 +13,6 @@ const CATEGORIES = [
     },
   },
   {
-    id: "furniture",
-    color: "var(--tab-2)",
-    name: { en: "Furniture & space", es: "Mobiliario y espacio" },
-    spine: { en: "SPACE", es: "ESPACIO" },
-    blurb: {
-      en: "Pieces and rooms — modular systems, furniture and a table that bends light.",
-      es: "Piezas y espacios: sistemas modulares, mobiliario y una mesa que dobla la luz.",
-    },
-  },
-  {
     id: "graphic",
     color: "var(--tab-4)",
     name: { en: "Graphic & branding", es: "Gráfico y marca" },
@@ -32,15 +22,34 @@ const CATEGORIES = [
       es: "Marcas e identidades: juego geométrico, tipografía cálida y logos que aún me gustan.",
     },
   },
+  {
+    id: "furniture",
+    color: "var(--tab-2)",
+    name: { en: "Furniture & space", es: "Mobiliario y espacio" },
+    spine: { en: "SPACE", es: "ESPACIO" },
+    blurb: {
+      en: "Pieces and rooms — modular systems, furniture and a table that bends light.",
+      es: "Piezas y espacios: sistemas modulares, mobiliario y una mesa que dobla la luz.",
+    },
+  },
 ];
+
+/* Default sample .glb shown in the 3D viewer when a project model is not present.
+   Per-project: add a `model` field with a .glb URL to override. */
+/* Sample model shown until a project's real .glb is added. */
+const DEFAULT_MODEL = "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/WaterBottle/glTF-Binary/WaterBottle.glb";
+
+/* Per-project .glb paths. Until the file exists, the viewer falls back to
+   DEFAULT_MODEL automatically. */
 
 const PROJECTS = [
   {
-    slug: "duna", category: "product", year: "2024", has3d: true, rot: "-2deg",
+    slug: "duna", category: "product", year: "2024", has3d: true, rot: "-2deg", coverSrc: "uploads/duna-cover.jpg", coverAspect: "1410/1770",
+    model: "models/duna.glb",
     title: "Duna",
     tag: { en: "Family of products", es: "Familia de productos" },
     oneLine: {
-      en: "Ergonomic kitchenware for hands that hurt — arthritis-friendly, dune-soft forms.",
+      en: "Ergonomic kitchenware for hands with limited mobility — arthritis-friendly, dune-soft forms.",
       es: "Vajilla ergonómica para manos que duelen: amable con la artritis, suave como una duna.",
     },
     materials: { en: "Ceramic · Concept + renders", es: "Cerámica · Concepto + renders" },
@@ -51,8 +60,9 @@ const PROJECTS = [
     },
   },
   {
-    slug: "coffee-ritual", category: "product", year: "2024", has3d: true, rot: "1.5deg",
-    title: { en: "Coffee Ritual", es: "Ritual de café" },
+    slug: "coffee-ritual", category: "product", year: "2025", has3d: true, rot: "1.5deg",
+    model: "models/coffee-ritual.glb",
+    title: { en: "Ryūsui", es: "Ryūsui" },
     tag: { en: "Pour-over set", es: "Set para café de filtro" },
     oneLine: {
       en: "A pour-over set drawn from Japanese zen gardens — stone, moss, raked sand.",
@@ -66,14 +76,15 @@ const PROJECTS = [
     },
   },
   {
-    slug: "sense-rituals", category: "product", year: "2023", has3d: true, rot: "-1.2deg",
+    slug: "sense-rituals", category: "product", year: "2025", has3d: true, thumbCount: 6, modelHeight: "360px", rot: "-1.2deg",
+    model: "models/sense-rituals.glb",
     title: "Sense Rituals",
     tag: { en: "Family of products", es: "Familia de productos" },
     oneLine: {
       en: "Three objects for the senses — candle, incense, tea — that nest into one sculptural form.",
       es: "Tres objetos para los sentidos —vela, incienso, té— que se guardan en una sola forma.",
     },
-    materials: { en: "Brass · Wood", es: "Latón · Madera" },
+    materials: { en: "Brass and Wood · Concept", es: "Latón · Madera" },
     chips: { en: ["Homeware", "Modularity", "3D model"], es: ["Hogar", "Modularidad", "Modelo 3D"] },
     body: {
       en: "A set of three home objects built from spheres and half-domes: a candle holder (sight & touch), an incense holder (smell) and a tea canister (taste). Two of them store together to read as a single sculptural piece, so the family stays calm and consistent on a shelf — and reveals itself only when used. Brass and wood.",
@@ -81,7 +92,7 @@ const PROJECTS = [
     },
   },
   {
-    slug: "nido", category: "product", year: "2023", has3d: false, rot: "1deg",
+    slug: "nido", category: "product", year: "2025", has3d: false, rot: "1deg",
     title: "Nido",
     tag: { en: "Family of products", es: "Familia de productos" },
     oneLine: {
@@ -96,7 +107,7 @@ const PROJECTS = [
     },
   },
   {
-    slug: "prisma", category: "furniture", year: "2024", has3d: true, rot: "-1.5deg",
+    slug: "prisma", category: "furniture", year: "2025", has3d: false, mainHeight: "440px", rot: "-1.5deg",
     title: "Prisma",
     tag: { en: "Side table", es: "Mesa auxiliar" },
     oneLine: {
@@ -106,27 +117,27 @@ const PROJECTS = [
     materials: { en: "Colored glass · Steel · Render", es: "Cristal de color · Acero · Render" },
     chips: { en: ["Furniture", "Light study", "3D model"], es: ["Mobiliario", "Estudio de luz", "Modelo 3D"] },
     body: {
-      en: "A triangular side table with colored glass panels set into its supports. When light passes through, the three primaries blend across the floor like a prism — a quiet nod to The Dark Side of the Moon. It isn't a real prism; it's three sheets of colored glass placed so their shadows overlap into a rainbow. Modeled and rendered.",
+      en: "A triangular side table with colored glass panels set into its supports. When light passes through, the three primaries blend across the floor like a prism — a quiet nod to The Dark Side of the Moon. It isn't a real prism; it's three sheets of colored glass placed so their shadows overlap into a rainbow.",
       es: "Una mesa auxiliar triangular con paneles de cristal de color en sus soportes. Cuando la luz los atraviesa, los tres primarios se mezclan en el piso como un prisma: un gui\u00f1o a The Dark Side of the Moon. No es un prisma real; son tres l\u00e1minas de cristal de color colocadas para que sus sombras se superpongan en un arco\u00edris. Modelada y renderizada.",
     },
   },
   {
-    slug: "concept-store", category: "furniture", year: "2023", has3d: false, rot: "1.2deg",
-    title: { en: "Concept Store", es: "Concept Store" },
+    slug: "concept-store", category: "furniture", year: "2025", has3d: false, galleryLayout: "main-grid", gridCount: 4, mainHeight: "380px", thumbAspect: "16/9", rot: "1.2deg",
+    title: { en: "Symbiosis", es: "Symbiosis" },
     tag: { en: "Space + objects", es: "Espacio + objetos" },
     oneLine: {
-      en: "A retail space plus a modular tile and display furniture for local artists.",
-      es: "Un espacio comercial con un azulejo modular y mobiliario para exhibir a artistas locales.",
+      en: "A converging space — retail, performance, and coffee — with three families of modular objects designed for it.",
+      es: "Un espacio de convergencia —retail, performance y café— con tres familias de objetos modulares diseñadas para él.",
     },
     materials: { en: "Spatial · Furniture", es: "Espacio · Mobiliario" },
-    chips: { en: ["Spatial", "Modular", "Retail"], es: ["Espacio", "Modular", "Retail"] },
+    chips: { en: ["Spatial", "Modular", "Performance"], es: ["Espacio", "Modular", "Performance"] },
     body: {
-      en: "An end-to-end concept store: I planned the space and designed objects for it. A modular tile arranges into near-endless patterns, and a set of modular display furniture is built to show work from local artists and makers — flexible enough to re-stage the room for every new exhibition.",
-      es: "Una concept store de principio a fin: plane\u00e9 el espacio y dise\u00f1\u00e9 objetos para \u00e9l. Un azulejo modular se acomoda en patrones casi infinitos, y un set de mobiliario modular est\u00e1 hecho para exhibir el trabajo de artistas y creadores locales, flexible para re-montar la sala en cada nueva exposici\u00f3n.",
+      en: "Symbiosis is a concept store built on convergence — retail, a central performance stage, and a coffee bar sharing one open room. A circular skylight pours light onto a sunken stage that spirals down in a continuous ramp, ringed by a floor-length curtain that opens or closes to re-stage the space for each day's program. I designed three modular families for it, named for the biology that inspired the concept: a Modular Tile that arranges into near-endless patterns; Membrane, interlocking seats and tables that puzzle together into countless configurations; and Cell, display stands for showing work by local artists and makers.",
+      es: "Symbiosis es una concept store construida sobre la idea de convergencia: retail, un escenario central para performances y una cafeter\u00eda conviviendo en una misma sala abierta. Un tragaluz circular deja caer la luz sobre un escenario hundido que desciende en una rampa continua en espiral, rodeado por una cortina de piso a techo que se abre o se cierra para re-montar el espacio seg\u00fan el uso de cada d\u00eda. Dise\u00f1\u00e9 tres familias modulares para \u00e9l, nombradas por la biolog\u00eda que inspir\u00f3 el concepto: un Azulejo Modular que se acomoda en patrones casi infinitos; Membrana, asientos y mesas que se entrelazan como un rompecabezas en incontables arreglos; y C\u00e9lula, estantes de exhibici\u00f3n para mostrar el trabajo de artistas y creadores locales.",
     },
   },
   {
-    slug: "fronttec", category: "graphic", year: "2024", has3d: false, rot: "-1deg",
+    slug: "fronttec", category: "graphic", year: "2023", has3d: false, galleryLayout: "grid4", hideMaterials: true, rot: "-1deg",
     title: "FrontTec",
     tag: { en: "Logo & identity", es: "Logo e identidad" },
     oneLine: {
@@ -134,15 +145,15 @@ const PROJECTS = [
       es: "Un logo de cubo isom\u00e9trico para un equipo universitario de desarrollo front-end.",
     },
     materials: { en: "Logo · Identity", es: "Logo · Identidad" },
-    chips: { en: ["Logo", "Geometric", "Type"], es: ["Logo", "Geom\u00e9trico", "Tipo"] },
+    chips: { en: ["Logo", "Geometric"], es: ["Logo", "Geom\u00e9trico"] },
     body: {
       en: "A logo for FrontTec, a university front-end development team. It's an isometric cube: the left face is an F, the right face a T, and the top face holds the angle-bracket pair </> that the cube's geometry frames perfectly. Built on geometric play, with a confident purple. One of the marks I'm most proud of.",
       es: "Un logo para FrontTec, un equipo universitario de desarrollo front-end. Es un cubo isom\u00e9trico: la cara izquierda es una F, la derecha una T, y la cara superior sostiene el par </> que la geometr\u00eda del cubo enmarca a la perfecci\u00f3n. Construido sobre juego geom\u00e9trico, con un morado seguro. Una de las marcas de las que estoy m\u00e1s orgullosa.",
     },
   },
   {
-    slug: "candle-co", category: "graphic", year: "2022", has3d: false, rot: "1.5deg",
-    title: { en: "Candle Co.", es: "Marca de velas" },
+    slug: "candle-co", category: "graphic", year: "2023", has3d: false, rot: "1.5deg",
+    title: { en: "Lumi", es: "Lumi" },
     tag: { en: "Logo & logotype", es: "Logo y logotipo" },
     oneLine: {
       en: "Logo and logotype for a small candle business.",
@@ -195,7 +206,7 @@ const T = {
   year:   { en: "Year", es: "A\u00f1o" },
   type:   { en: "Type", es: "Tipo" },
   made:   { en: "Made with", es: "Materiales" },
-  rotateHint:{ en: "drop a rotating GIF here \u2014 hover to peek in 3D", es: "suelta un GIF giratorio aqu\u00ed \u2014 pasa el cursor para ver en 3D" },
+  rotateHint:{ en: "hover to peek in 3D", es: "pasa el cursor para ver en 3D" },
   threeD: { en: "360\u00b0", es: "360\u00b0" },
   prev:   { en: "Previous", es: "Anterior" },
   next:   { en: "Next", es: "Siguiente" },
@@ -203,5 +214,5 @@ const T = {
   viewProject:{ en: "View project", es: "Ver proyecto" },
 };
 
-window.PF = { CATEGORIES, PROJECTS };
+window.PF = { CATEGORIES, PROJECTS, DEFAULT_MODEL };
 window.T = T;

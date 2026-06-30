@@ -1,9 +1,6 @@
-# Daniela García Portfolio
+# Daniela Garcia Portfolio
 
-Static portfolio site ready for GitHub Pages or Vercel.
+Static portfolio site for GitHub Pages.
 
-## Deploy
-
-- GitHub Pages: deploy from the `main` branch root.
-- Vercel: import the repository and use the default static-site settings.
+Published at: https://danygarciagza.github.io/portfolio/
 
