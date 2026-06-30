@@ -60,8 +60,7 @@ const PROJECTS = [
     },
   },
   {
-    slug: "coffee-ritual", category: "product", year: "2025", has3d: true, rot: "1.5deg",
-    model: "models/coffee-ritual.glb",
+    slug: "coffee-ritual", category: "product", year: "2025", has3d: false, rot: "1.5deg",
     title: { en: "Ryūsui", es: "Ryūsui" },
     tag: { en: "Pour-over set", es: "Set para café de filtro" },
     oneLine: {
@@ -69,7 +68,7 @@ const PROJECTS = [
       es: "Un set de café de filtro inspirado en jardines zen: piedra, musgo y arena rastrillada.",
     },
     materials: { en: "Ceramic · Concept + renders", es: "Cerámica · Concepto + renders" },
-    chips: { en: ["Texture study", "Ritual", "3D model"], es: ["Estudio de textura", "Ritual", "Modelo 3D"] },
+    chips: { en: ["Texture study", "Ritual", "Product render"], es: ["Estudio de textura", "Ritual", "Render de producto"] },
     body: {
       en: "Drip coffee is a small ritual of patience and repeated, spiral motions — the same rhythm as tending a zen garden. The set translates that directly: the dripper is the garden stone, the cup-stand wears an irregular green moss texture, and the cup itself carries the raked lines of sand. Three textures, one quiet morning.",
       es: "El café de filtro es un pequeño ritual de paciencia y movimientos repetidos en espiral, el mismo ritmo que cuidar un jardín zen. El set lo traduce directamente: el dripper es la piedra del jardín, el soporte lleva una textura irregular de musgo verde, y la taza guarda las líneas rastrilladas de la arena. Tres texturas, una mañana tranquila.",
